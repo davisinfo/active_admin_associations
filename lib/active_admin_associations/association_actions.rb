@@ -29,7 +29,7 @@ module ActiveAdminAssociations
           resource.update_attribute(relationship_reflection.foreign_key, nil)
         end
 
-        redirect_back_or_dashboard("The recored has been unrelated.")
+        redirect_back_or_dashboard("The record has been unrelated.")
       end
 
       def relate_record
@@ -40,13 +40,13 @@ module ActiveAdminAssociations
           resource.update_attribute(relationship_reflection.foreign_key, params[:related_id])
         end
 
-        redirect_back_or_dashboard("The recored has been related.")
+        redirect_back_or_dashboard("The record has been related.")
       end
 
       def page_related_resources
         association_config  = active_admin_config.form_associations[relationship_name]
         association_columns = association_config.fields.presence || relationship_class.content_columns
-        
+
         render :partial => 'admin/shared/collection_table', :locals => {
           :object             => resource,
           :collection         => resource.send(relationship_name).page(params[:page]),
