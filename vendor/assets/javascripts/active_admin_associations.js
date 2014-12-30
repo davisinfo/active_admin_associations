@@ -3,7 +3,7 @@
 $(document).ready(function(){
   $('input.token-input').tokenInput(function($input){
     var modelName = $input.data("model-name");
-    return "/autocomplete/"+modelName;
+    return "/admin/autocomplete/"+modelName;
   }, {
     minChars: 3,
     propertyToSearch: "value",
