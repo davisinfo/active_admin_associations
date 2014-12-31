@@ -29,7 +29,7 @@ module ActiveAdminAssociations
           resource.update_attribute(relationship_reflection.foreign_key, nil)
         end
 
-        redirect_back_or_dashboard("The record has been unrelated.")
+        redirect_back_or_dashboard("The record has been removed.")
       end
 
       def relate_record
@@ -40,7 +40,7 @@ module ActiveAdminAssociations
           resource.update_attribute(relationship_reflection.foreign_key, params[:related_id])
         end
 
-        redirect_back_or_dashboard("The record has been related.")
+        redirect_back_or_dashboard("The record has been added.")
       end
 
       def page_related_resources

@@ -17,4 +17,3 @@ desc "Run all specs in spec directory"
 RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 
 task :default => :spec
-
