@@ -17,7 +17,7 @@ module ActiveAdminAssociations
     module AutocompleteMethods
       def autocomplete_results(query)
         results = where("LOWER(#{table_name}.#{autocomplete_attribute}) LIKE ?", "%#{query.downcase}%").
-          order("#{table_name}.#{autocomplete_attribute} ASC")
+          order("#{table_name}.#{autocomplete_attribute} ASC").limit(autocomplete_options[:results_limit] || 15)
         results.map do |record|
           _autocomplete_format_result(record)
         end
