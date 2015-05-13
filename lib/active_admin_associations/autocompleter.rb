@@ -7,6 +7,11 @@ module ActiveAdminAssociations
         class_attribute :autocomplete_attribute
         class_attribute :autocomplete_options
 
+        options = {
+          results_limit: 15,
+          scope: :all
+        }.merge(options)
+
         self.autocomplete_attribute = attribute
         self.autocomplete_options = options
 
@@ -16,8 +21,9 @@ module ActiveAdminAssociations
 
     module AutocompleteMethods
       def autocomplete_results(query)
-        results = where("LOWER(#{table_name}.#{autocomplete_attribute}) LIKE ?", "%#{query.downcase}%").
-          order("#{table_name}.#{autocomplete_attribute} ASC").limit(autocomplete_options[:results_limit] || 15)
+        results = self.send(autocomplete_options[:scope]).
+          where("LOWER(#{table_name}.#{autocomplete_attribute}) LIKE ?", "%#{query.downcase}%").
+          order("#{table_name}.#{autocomplete_attribute} ASC").limit(autocomplete_options[:results_limit])
         results.map do |record|
           _autocomplete_format_result(record)
         end
