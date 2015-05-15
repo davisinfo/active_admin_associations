@@ -46,10 +46,14 @@ module ActiveAdminAssociations
       def page_related_resources
         association_config  = active_admin_config.form_associations[relationship_name]
         association_columns = association_config.fields.presence || relationship_class.content_columns
+        scope = active_admin_config.form_associations[relationship_name].scope
+        collection = resource.send(relationship_name)
+        collection = collection.send(scope) if scope
+        collection = collection.page(params[:page])
 
         render :partial => 'admin/shared/collection_table', :locals => {
           :object             => resource,
-          :collection         => resource.send(relationship_name).page(params[:page]),
+          :collection         => collection,
           :relationship       => relationship_name,
           :columns            => association_columns,
           :relationship_class => relationship_class
