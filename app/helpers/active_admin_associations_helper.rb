@@ -1,6 +1,8 @@
 module ActiveAdminAssociationsHelper
   def collection_relationship_manager(object, association)
-    collection = object.send(association.name).page(1)
+    collection = object.send(association.name)
+    collection = collection.send(association.scope) if association.scope
+    collection = collection.page(1)
     relationship_class = object.class.reflect_on_association(association.name).klass
     columns = association.fields.presence || relationship_class.content_columns
     render :partial => 'admin/shared/collection_table', :locals => {
@@ -11,7 +13,7 @@ module ActiveAdminAssociationsHelper
       :relationship_class => relationship_class
     }
   end
-  
+
   def admin_form_for(record)
     active_admin_form_for [:admin, record] do |f|
       f.semantic_errors
@@ -24,27 +26,27 @@ module ActiveAdminAssociationsHelper
       f.actions
     end
   end
-  
+
   def edit_url_for(record)
     send("edit_admin_#{record.class.model_name.singular}_path", record)
   end
-  
+
   def display_method_name_for(record)
     Formtastic::FormBuilder.collection_label_methods.find { |m| record.respond_to?(m) }
   end
-  
+
   def display_name_for(record)
     record.send(display_method_name_for(record))
   end
-  
+
   def resource_administrated?(model_class)
     ActiveAdmin.resources.include?(model_class)
   end
-  
+
   def relate_to_url(object)
     send("relate_admin_#{object.class.model_name.singular}_path", object)
   end
-  
+
   def page_entries_info(collection, options = {})
     if options[:entry_name]
       entry_name = options[:entry_name]
