@@ -46,7 +46,7 @@ module ActiveAdminAssociations
       def page_related_resources
         association_config  = active_admin_config.form_associations[relationship_name]
         association_columns = association_config.fields.presence || relationship_class.content_columns
-        scope = active_admin_config.form_associations[relationship_name].scope
+        scope = association_config.scope
         collection = resource.send(relationship_name)
         collection = collection.send(scope) if scope
         collection = collection.page(params[:page])
