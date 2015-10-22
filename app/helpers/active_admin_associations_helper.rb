@@ -21,7 +21,8 @@ module ActiveAdminAssociationsHelper
         f.inputs *active_admin_config.form_columns
       end
       if active_admin_config.active_association_form && active_admin_config.active_association_form.respond_to?(:call)
-        active_admin_config.active_association_form.call(f)
+        form_proc = active_admin_config.active_association_form
+        instance_exec(f, &form_proc)
       end
       f.actions
     end
