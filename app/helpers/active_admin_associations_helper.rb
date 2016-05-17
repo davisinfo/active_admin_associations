@@ -41,7 +41,7 @@ module ActiveAdminAssociationsHelper
   end
 
   def resource_administrated?(model_class)
-    ActiveAdmin.resources.include?(model_class)
+    ActiveAdmin.resources.any?{ |resource| resource <=> model_class }
   end
 
   def relate_to_url(object)
